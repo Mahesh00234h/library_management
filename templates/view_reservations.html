@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Your Reservations</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Book Title</th>
+                <th>Reserved At</th>
+                <th>Due Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+                {% set book = mongo.db.books.find_one({'_id': reservation.book_id}) %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ reservation.reserved_at.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ reservation.due_date.strftime('%Y-%m-%d') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
